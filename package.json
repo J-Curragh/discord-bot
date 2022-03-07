@@ -1,0 +1,10 @@
+{
+  "name": "discord-bot",
+  "version": "0.1",
+  "description": "Discord bot for Duck Council",
+  "main": "index.js",
+  "repository": "git@github.com:J-Curragh/discord-bot.git",
+  "author": "Jake Curragh",
+  "license": "MIT",
+  "private": false
+}
