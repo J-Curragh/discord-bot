@@ -25,22 +25,28 @@ export default class extends Client {
     return fullGuild;
   }
 
-  findChannelById(guild, channelId) {
-    return guild.channels.cache.find((channel) => channel.id === channelId);
+  async findChannelById(guild, channelId) {
+    let resChannel;
+    await guild.channels.fetch()
+      .then((channels) =>
+        resChannel = channels.find((channel) => channel.id === channelId)
+      );
+    return resChannel;
   }
 
-  async getRandomMessageFromUser() {
-    const guild = await this.getGuildObject();
-    const textChannel = this.findChannelById(guild, "658715415190700053");
+  async getRandomMessageFromUser(textChannel) {
     const messageSnowflake = SnowflakeUtil.generate(DateUtils.getRandomDate(
       "01/01/2020",
       "01/09/2021",
     ));
-    const message = await textChannel.messages.fetch({
+    const messages = await textChannel.messages.fetch({
       limit: 100,
       around: messageSnowflake,
     });
-    return message.find((message) => message.author.id === "244967176094613504")
-      .content;
+    const message =
+      messages.find((message) => message.author.id === "244967176094613504")
+        .content;
+    console.log(message);
+    return message;
   }
 }
