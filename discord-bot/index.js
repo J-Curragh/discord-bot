@@ -21,16 +21,22 @@ client.once("ready", (ctx) => {
   });
 
   // Every 10 minutes, check if the current time is in the randomTimes array
-  cron.schedule("*/10 * * * *", () => {
+  cron.schedule("*/10 * * * *", async () => {
     console.log("Starting cron job: Check Random Times");
     const currentTime = DateUtils.getCurrentTime();
+    const found = false;
     randomTimes.forEach((randomTime) => {
       if (DateUtils.areTimesEqual(currentTime, randomTime)) {
         console.log("Found a match!");
-        const randomMessage = await client.getRandomMessageFromUser(targetChannel);
-        targetChannel.send(randomMessage);
+        found = true;
+        return;
       }
     });
+
+    if (found) {
+      const randomMessage = await client.getRandomMessageFromUser();
+      targetChannel.send(randomMessage);
+    }
   });
 
   // cron.schedule("* * * * *", async () => {
