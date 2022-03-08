@@ -8,6 +8,7 @@ export default class extends Client {
     });
     this.token = config["token"];
     this.guild = config["guild"];
+    this.backupMessage = config["backupMessage"];
   }
 
   async getGuildObject(guildId = this.guild) {
@@ -43,10 +44,8 @@ export default class extends Client {
       limit: 100,
       around: messageSnowflake,
     });
-    const message =
-      messages.find((message) => message.author.id === "244967176094613504")
-        .content;
-    console.log(message);
-    return message;
+    const message = messages.find((message) => message.author.id === "244967176094613504")
+      .content;
+    return (message.length > 0) ? message : this.backupMessage; 
   }
 }

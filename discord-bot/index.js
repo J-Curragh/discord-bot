@@ -11,40 +11,34 @@ const randomTimes = [];
 
 client.once("ready", (ctx) => {
   console.log(`Ready! Logged in as ${ctx.user.tag}`);
-  // Every Second, push two random times to the randomTimes array
-  cron.schedule("* * * * * *", () => {
-    console.log("Starting cron job: Generate Random Times");
+  // At midnight, push two random times to the randomTimes array
+  cron.schedule("0 0 * * *", () => {
+    randomTimes.length = 0;
+    // TODO: Make the number of times generated configurable
     for (let i = 0; i < 2; i++) {
       const randomTime = DateUtils.getRandomTime();
       randomTimes.push(randomTime);
     }
   });
 
-  // Every 10 minutes, check if the current time is in the randomTimes array
-  cron.schedule("*/10 * * * *", async () => {
+  // Every minute, check if the current time is in the randomTimes array
+  cron.schedule("*/2 * * * *", async () => {
     console.log("Starting cron job: Check Random Times");
     const currentTime = DateUtils.getCurrentTime();
-    const found = false;
+    let found = false;
     randomTimes.forEach((randomTime) => {
       if (DateUtils.areTimesEqual(currentTime, randomTime)) {
-        console.log("Found a match!");
         found = true;
         return;
       }
     });
 
     if (found) {
-      const randomMessage = await client.getRandomMessageFromUser();
+      const randomMessage = await client.getRandomMessageFromUser(targetChannel);
+      console.log(randomMessage)
       targetChannel.send(randomMessage);
     }
   });
-
-  // cron.schedule("* * * * *", async () => {
-  //   console.log("Running cron job");
-  //   const randomMessage = await client.getRandomMessageFromUser(targetChannel);
-  //   console.log("Message:", randomMessage)
-  //   targetChannel.send(randomMessage);
-  // });
 });
 
 // Establish WebSocket connection to Discord.
