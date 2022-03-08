@@ -25,6 +25,8 @@ client.once("ready", (ctx) => {
   cron.schedule("*/2 * * * *", async () => {
     console.log("Starting cron job: Check Random Times");
     const currentTime = DateUtils.getCurrentTime();
+    console.log("[INFO] Time Check. Current time is:", currentTime);
+    console.log("[Info] Today's random times are:", randomTimes);
     let found = false;
     randomTimes.forEach((randomTime) => {
       if (DateUtils.areTimesEqual(currentTime, randomTime)) {
