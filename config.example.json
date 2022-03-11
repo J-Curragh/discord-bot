@@ -1,0 +1,16 @@
+
+{
+  "token": "Your API Token",
+  "random": {
+    "randomTimes": {
+      "enabled": true,
+      "noTimes": 2
+    },
+    "defaultTimes": []
+  },
+  "targets": {
+    "guild": "target guild ID",
+    "channel": "target channel ID",
+    "user": "target user ID"
+  }
+}

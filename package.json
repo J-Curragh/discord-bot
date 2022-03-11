@@ -12,6 +12,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "chalk": "^5.0.1",
     "discord.js": "^13.6.0",
     "node-cron": "^3.0.0"
   }

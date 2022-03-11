@@ -11,7 +11,7 @@ export default class {
   static getRandomTime() {
     const hours = Math.floor(Math.random() * 24);
     const minutes = Math.floor(Math.random() * 60);
-    return `${hours}:${minutes}`;
+    return `${this.dateUnitToString(hours)}:${this.dateUnitToString(minutes)}`;
   }
 
   // Get current time in 24-hour format
@@ -19,14 +19,18 @@ export default class {
     const date = new Date();
     const hours = date.getHours();
     const minutes = date.getMinutes();
-    return `${hours}:${minutes}`;
+    return `${this.dateUnitToString(hours)}:${this.dateUnitToString(minutes)}`;
   }
-  
+
   // Check two times are equal
   static areTimesEqual(time1, time2) {
-    const { hours1, minutes1 } = time1.split(':');
-    const { hours2, minutes2 } = time2.split(':');
+    const [hours1, minutes1] = time1.split(":");
+    const [hours2, minutes2] = time2.split(":");
     return hours1 === hours2 && minutes1 === minutes2;
   }
 
+  static dateUnitToString(n) {
+    const ns = n.toString();
+    return (n >= 10) ? ns : "0" + ns;
+  };
 }

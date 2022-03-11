@@ -1,43 +1,29 @@
-import Client from "./client/client.js";
-import DateUtils from "./utils/dateutils.js";
+import Client from "./client.js";
+import { CRON } from "./constants.js";
+import { checkCurrentTimeIsInFile, writeTimesToFile } from "./times.js";
+import config from "./config.js";
 import cron from "node-cron";
-import config from "../config.json" assert { type: "json" };
 
 const client = new Client(config);
-const guild = await client.getGuildObject(client.guild);
-const targetChannel = await client.findChannelById(guild, "658715415190700053");
-
-const randomTimes = [];
+const guild = await client.getGuildObject();
+const targetChannel = await client.findChannelById(
+  guild,
+  config.targets.channel,
+);
 
 client.once("ready", (ctx) => {
   console.log(`Ready! Logged in as ${ctx.user.tag}`);
-  // At midnight, push two random times to the randomTimes array
-  cron.schedule("0 0 * * *", () => {
-    randomTimes.length = 0;
-    // TODO: Make the number of times generated configurable
-    for (let i = 0; i < 2; i++) {
-      const randomTime = DateUtils.getRandomTime();
-      randomTimes.push(randomTime);
-    }
+  // Every midnight, write new times to file
+  cron.schedule(CRON.EVERY_MIDNIGHT, () => {
+    writeTimesToFile(config);
   });
 
-  // Every minute, check if the current time is in the randomTimes array
-  cron.schedule("*/2 * * * *", async () => {
-    console.log("Starting cron job: Check Random Times");
-    const currentTime = DateUtils.getCurrentTime();
-    console.log("[INFO] Time Check. Current time is:", currentTime);
-    console.log("[Info] Today's random times are:", randomTimes);
-    let found = false;
-    randomTimes.forEach((randomTime) => {
-      if (DateUtils.areTimesEqual(currentTime, randomTime)) {
-        found = true;
-        return;
-      }
-    });
-
-    if (found) {
-      const randomMessage = await client.getRandomMessageFromUser(targetChannel);
-      console.log(randomMessage)
+  cron.schedule(CRON.EACH_MINUTE, async () => {
+    const doTimesMatch = checkCurrentTimeIsInFile()
+    if (doTimesMatch) {
+      const randomMessage = await client.getRandomMessageFromUser(
+        targetChannel,
+      );
       targetChannel.send(randomMessage);
     }
   });
