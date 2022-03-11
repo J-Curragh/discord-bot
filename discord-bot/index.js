@@ -15,6 +15,7 @@ client.once("ready", (ctx) => {
   console.log(`Ready! Logged in as ${ctx.user.tag}`);
   // Every midnight, write new times to file
   cron.schedule(CRON.EVERY_MIDNIGHT, () => {
+    console.log("OH ITS HAPPENING!!!!")
     writeTimesToFile(config);
   });
 

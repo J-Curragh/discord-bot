@@ -11,6 +11,7 @@ const readTimes = () => {
 const writeTimes = (opts) => {
   if (!opts.randomTimesEnabled) {
     const times = opts.defaultTimes;
+    console.log(times)
     writeFileSync(file, times.join("\n"));
     return times;
   }
@@ -18,6 +19,7 @@ const writeTimes = (opts) => {
   for (let i = 0; i < opts.randomTimesCount; i++) {
     times.push(DateUtils.getRandomTime(opts.startDate, opts.endDate));
   }
+  console.log(times)
   times = times.concat(opts.defaultTimes);
   writeFileSync(file, times.join("\n"));
   return times;
