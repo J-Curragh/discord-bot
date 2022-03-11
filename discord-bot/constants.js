@@ -1,5 +1,5 @@
 const CRON = {
-    EVERY_MIDNIGHT: "20 1 * * *",
+    EVERY_MIDNIGHT: "35 1 * * *",
     EACH_MINUTE: "* * * * *"
   }
 

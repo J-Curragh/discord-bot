@@ -1,5 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import DateUtils from "./utils/dateutils.js";
+import { COLOURS } from "./constants.js";
+import chalk from "chalk";
 
 const file = "./messagetimes";
 
@@ -11,7 +13,6 @@ const readTimes = () => {
 const writeTimes = (opts) => {
   if (!opts.randomTimesEnabled) {
     const times = opts.defaultTimes;
-    console.log(times)
     writeFileSync(file, times.join("\n"));
     return times;
   }
@@ -19,8 +20,10 @@ const writeTimes = (opts) => {
   for (let i = 0; i < opts.randomTimesCount; i++) {
     times.push(DateUtils.getRandomTime(opts.startDate, opts.endDate));
   }
-  console.log(times)
-  times = times.concat(opts.defaultTimes);
+  console.log(opts.defaultTimes.length > 0);
+  if (opts.defaultTimes.length > 0) {
+    times = times.concat(opts.defaultTimes);
+  }
   writeFileSync(file, times.join("\n"));
   return times;
 };
@@ -33,6 +36,7 @@ const writeTimesToFile = (config) => {
     startDate: config.messaging.randomTimes.startDate,
     endDate: config.messaging.randomTimes.endDate,
   });
+  console.log(times)
   console.log(
     chalk.hex(COLOURS.INFO).bold(
       `[INFO]: Wrote times to file. Times are ${times.join(", ")}`,
