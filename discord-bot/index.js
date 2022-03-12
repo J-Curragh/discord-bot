@@ -9,10 +9,14 @@ const config = require("./config.js")
 
 // Discord.js Client wrapper representing the bot user.
 const client = new Client(config);
-// Discord.js Guild object representing a Discord server.
-const guild = (async () => await client.getGuildObject());
-// Discord.js Channel object representing a Discord Text Channel in the Discord Server.
-const targetChannel = (async () => await client.findChannelById(guild, config.targets.channel));
+
+client.once("ready", async (ctx) => {
+    ConsoleUtils.printInfoStrong(`Ready! Logged in as ${ctx.user.tag}`);
+
+    // Discord.js Guild object representing a Discord server.
+    const guild = await client.getGuildObject();
+    // Discord.js Channel object representing a Discord Text Channel in the Discord Server.
+    const targetChannel = await client.findChannelById(guild, config.targets.channel);
 
     ConsoleUtils.printInfo(`Guild: ${guild}, Channel: ${targetChannel}`);
 
