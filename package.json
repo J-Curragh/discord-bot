@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node ."
   },
-  "type": "module",
   "repository": "git@github.com:J-Curragh/discord-bot.git",
   "author": "Jake Curragh",
   "license": "MIT",

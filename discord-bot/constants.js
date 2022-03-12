@@ -1,11 +1,15 @@
-const CRON = {
-    EVERY_MIDNIGHT: "35 1 * * *",
-    EACH_MINUTE: "* * * * *"
-  }
+const Constants = exports;
 
-const COLOURS = {
-  GREEN: "#5FD5A2",
-  INFO: "#CFE2F3"
+Constants.CRON = {
+    EVERY_MIDNIGHT: "58 0 * * *",
+    EACH_MINUTE: "* * * * *",
+    DEFAULT_SCHEDULE_OPTIONS: {
+        scheduled: true,
+        timezone: "Europe/Belfast"
+    }
 }
 
-export { CRON, COLOURS }
+Constants.COLOURS = {
+    GREEN: "#5FD5A2",
+    INFO: "#CFE2F3"
+}

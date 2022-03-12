@@ -1,12 +1,14 @@
 
 {
   "token": "Your API Token",
-  "random": {
-    "randomTimes": {
+  "messages": {
+    "random": {
       "enabled": true,
-      "noTimes": 2
+      "times": 2,
+      "start": "01/01/1970",
+      "end": "01/01/2050"
     },
-    "defaultTimes": []
+    "default": []
   },
   "targets": {
     "guild": "target guild ID",
