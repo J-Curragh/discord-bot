@@ -1,12 +1,18 @@
 const chalk = require("chalk");
 const {COLOURS} = require("../constants.js");
+const {getCurrentTime} = require("./TimeDateUtils.js");
 
 const INFO_PREFIX = "[INFO] "
 const ERROR_PREFIX = "[ERROR] "
 const SUCCESS_PREFIX = "[SUCCESS] "
-exports.printInfo = (msg) => console.log(chalk.hex(COLOURS.INFO)(INFO_PREFIX + msg));
-exports.printInfoStrong = (msg) => console.log(chalk.hex(COLOURS.INFO).bold(INFO_PREFIX + msg));
-exports.printError = (msg) => console.log(chalk.hex(COLOURS.ERROR)(ERROR_PREFIX + msg));
-exports.printErrorStrong = (msg) => console.log(chalk.hex(COLOURS.ERROR).bold(ERROR_PREFIX + msg));
-exports.printSuccess = (msg) => console.log(chalk.hex(COLOURS.SUCCESS)(SUCCESS_PREFIX + msg));
-exports.printSuccessStrong = (msg) => console.log(chalk.hex(COLOURS.SUCCESS).bold(SUCCESS_PREFIX + msg));
+
+const log = (message, colour, bold = false) => {
+    const TIMESTAMP = getCurrentTime() + ' ';
+    (bold) ? console.log(TIMESTAMP + chalk.hex(colour).bold(message)) : console.log(TIMESTAMP + chalk.hex(colour)(message));
+}
+exports.printInfo = (msg) => log(INFO_PREFIX + msg , COLOURS.INFO);
+exports.printInfoStrong = (msg) => log(INFO_PREFIX + msg, COLOURS.INFO, true);
+exports.printError = (msg) => log(ERROR_PREFIX + msg, COLOURS.ERROR);
+exports.printErrorStrong = (msg) => log(ERROR_PREFIX + msg, COLOURS.ERROR, true);
+exports.printSuccess = (msg) => log(SUCCESS_PREFIX + msg, COLOURS.SUCCESS);
+exports.printSuccessStrong = (msg) => log(SUCCESS_PREFIX + msg, COLOURS.SUCCESS, true);
