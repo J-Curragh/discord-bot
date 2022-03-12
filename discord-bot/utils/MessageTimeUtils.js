@@ -1,6 +1,6 @@
 const {readFileSync, writeFileSync} = require("fs");
 const {COLOURS} = require("../constants.js");
-const {TimeDateUtils} = require("../utils");
+const TimeDateUtils = require("./TimeDateUtils.js");
 const chalk = require("chalk");
 
 const file = "./messagetimes";
