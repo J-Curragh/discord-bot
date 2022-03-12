@@ -1,7 +1,6 @@
 const {readFileSync, writeFileSync} = require("fs");
-const {COLOURS} = require("../constants.js");
 const TimeDateUtils = require("./TimeDateUtils.js");
-const chalk = require("chalk");
+const ConsoleUtils = require("./ConsoleUtils.js");
 
 const file = "./messagetimes";
 
@@ -28,7 +27,8 @@ const writeTimes = (opts) => {
     return times;
 };
 
-const writeTimesToFile = (config) => {
+exports.writeTimesToFile = (config) => {
+    ConsoleUtils.printInfo("Writing times to file...");
     const times = writeTimes({
         defaultTimes: config.default,
         randomTimesCount: config.random.times,
@@ -36,10 +36,10 @@ const writeTimesToFile = (config) => {
         startDate: config.random.start,
         endDate: config.random.end,
     });
-    console.log(chalk.hex(COLOURS.INFO).bold(`[INFO]: Wrote times to file. Times are ${times.join(", ")}`,),);
+    ConsoleUtils.printInfo(`Wrote times to file. Times are ${times.join(", ")}`);
 };
 
-const checkCurrentTimeIsInFile = () => {
+exports.checkCurrentTimeIsInFile = () => {
     const currentTime = TimeDateUtils.getCurrentTime();
     const times = readTimes();
     let found = false;
@@ -51,7 +51,3 @@ const checkCurrentTimeIsInFile = () => {
     return found;
 };
 
-exports = {
-    writeTimesToFile: writeTimesToFile,
-    checkCurrentTimeIsInFile: checkCurrentTimeIsInFile
-}

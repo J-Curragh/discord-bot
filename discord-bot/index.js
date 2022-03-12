@@ -1,6 +1,6 @@
 const Client = require("./client.js");
 const {CRON} = require("./constants.js");
-const {MessageTimeUtils} = require("./utils");
+const {ConsoleUtils, MessageTimeUtils} = require("./utils");
 const cron = require("node-cron");
 
 // Configuration
@@ -14,19 +14,24 @@ const guild = (async () => await client.getGuildObject());
 // Discord.js Channel object representing a Discord Text Channel in the Discord Server.
 const targetChannel = (async () => await client.findChannelById(guild, config.targets.channel));
 
-client.once("ready", (ctx) => {
-    console.log(`Ready! Logged in as ${ctx.user.tag}`);
+    ConsoleUtils.printInfo(`Guild: ${guild}, Channel: ${targetChannel}`);
+
     // Every midnight, generate new times.
     cron.schedule(CRON.EVERY_MIDNIGHT, () => {
+        ConsoleUtils.printInfo("Generating new times...");
         MessageTimeUtils.writeTimesToFile(config.messages);
+        ConsoleUtils.printSuccess("New times generated!");
     }, CRON.DEFAULT_SCHEDULE_OPTIONS);
 
     // Send a random message if the current time matches.
     cron.schedule(CRON.EACH_MINUTE, async () => {
+        ConsoleUtils.printInfo("Checking time...");
         const doTimesMatch = MessageTimeUtils.checkCurrentTimeIsInFile()
         if (doTimesMatch) {
+            ConsoleUtils.printInfoStrong("Time matches. Sending message...");
             const randomMessage = await client.getRandomMessageFromUser(targetChannel);
             targetChannel.send(randomMessage);
+            ConsoleUtils.printSuccessStrong("Message sent!");
         }
     }, CRON.DEFAULT_SCHEDULE_OPTIONS);
 });

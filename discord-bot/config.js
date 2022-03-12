@@ -1,10 +1,9 @@
-const {COLOURS} = require("./constants.js");
-const chalk = require("chalk");
+const { ConsoleUtils } = require("./utils");
 
 module.exports.loadConfig = (config) => {
     const configFileObj = require(config);
 
-    console.log(chalk.bold("Verifying Config..."));
+    ConsoleUtils.printInfoStrong("Verifying Config...");
     // TODO: Verify default times are correct
     const errors = [];
 
@@ -29,13 +28,14 @@ module.exports.loadConfig = (config) => {
     }
 
     if (errors.length) {
-        console.log(chalk.hex(COLOURS.INFO).bold("There were errors found in config.json:"));
+        ConsoleUtils.printInfoStrong("There were errors found in your config.json. " +
+            "Please fix them and try again.");
         errors.forEach((err) => {
-            console.log(chalk.hex(COLOURS.ERROR)("✗ " + err))
+            ConsoleUtils.printError("✗ " + err)
         })
         throw new Error("Config.json invalid.")
     }
 
-    console.log(chalk.hex(COLOURS.GREEN)("Config Verified ✔"));
+    ConsoleUtils.printSuccess("Config Verified ✔");
     return configFileObj;
 }
