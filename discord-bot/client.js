@@ -1,5 +1,5 @@
 const {Client: DClient, Intents, SnowflakeUtil} = require("discord.js");
-const {TimeDateUtils, ConsoleUtils} = require("./utils");
+const {TimeDateUtils} = require("./utils");
 
 class Client extends DClient {
     constructor(config) {
@@ -38,10 +38,9 @@ class Client extends DClient {
     async getRandomMessageFromUser(textChannel) {
         while (true) {
             const date = TimeDateUtils.getRandomDate(
-                this.msgOpts.random.startDate,
-                this.msgOpts.random.endDate,
+                this.msgOpts.random.start,
+                this.msgOpts.random.end,
             );
-            ConsoleUtils.printInfo(`Fetching messages from ${textChannel.name} using date ${date}`);
             const messageSnowflake = SnowflakeUtil.generate(date);
             const messages = await textChannel.messages.fetch({
                 limit: 100,

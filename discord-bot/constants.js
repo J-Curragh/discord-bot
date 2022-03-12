@@ -1,7 +1,7 @@
 const Constants = exports;
 
 Constants.CRON = {
-    EVERY_MIDNIGHT: "58 0 * * *",
+    EVERY_MIDNIGHT: "0 0 * * *",
     EACH_MINUTE: "* * * * *",
     DEFAULT_SCHEDULE_OPTIONS: {
         scheduled: true,

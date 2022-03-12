@@ -1,6 +1,5 @@
 const {readFileSync, writeFileSync} = require("fs");
 const TimeDateUtils = require("./TimeDateUtils.js");
-const ConsoleUtils = require("./ConsoleUtils.js");
 
 const file = "./messagetimes";
 
@@ -28,15 +27,13 @@ const writeTimes = (opts) => {
 };
 
 exports.writeTimesToFile = (config) => {
-    ConsoleUtils.printInfo("Writing times to file...");
-    const times = writeTimes({
+    return writeTimes({
         defaultTimes: config.default,
         randomTimesCount: config.random.times,
         randomTimesEnabled: config.random.enabled,
         startDate: config.random.start,
         endDate: config.random.end,
     });
-    ConsoleUtils.printInfo(`Wrote times to file. Times are ${times.join(", ")}`);
 };
 
 exports.checkCurrentTimeIsInFile = () => {
