@@ -10,6 +10,7 @@ Constants.CRON = {
 }
 
 Constants.COLOURS = {
-    GREEN: "#5FD5A2",
-    INFO: "#CFE2F3"
+    GREEN: "#9bcf79",
+    INFO: "#e1e3e4",
+    ERROR: "#f85d7b"
 }
