@@ -4,7 +4,8 @@
   "description": "Discord bot for Duck Council",
   "main": "discord-bot/index.js",
   "scripts": {
-    "start": "node ."
+    "build": "babel discord-bot -d dist",
+    "start": "npm run build && node dist/index.js"
   },
   "repository": "git@github.com:J-Curragh/discord-bot.git",
   "author": "Jake Curragh",
@@ -14,5 +15,10 @@
     "chalk": "^4.1.2",
     "discord.js": "^13.6.0",
     "node-cron": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11"
   }
 }
