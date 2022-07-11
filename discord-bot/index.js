@@ -1,6 +1,6 @@
 const Client = require("./client.js");
 const {CRON} = require("./constants.js");
-const {ConsoleUtils, MessageTimeUtils} = require("./utils");
+const { ConsoleUtils, MessageTimeUtils } = require("./utils");
 const cron = require("node-cron");
 
 // Configuration
@@ -33,7 +33,8 @@ client.once("ready", async (ctx) => {
         const doTimesMatch = MessageTimeUtils.checkCurrentTimeIsInFile()
         if (doTimesMatch) {
             ConsoleUtils.printInfoStrong("Time matches. Sending message...");
-            const randomMessage = await client.getRandomMessageFromUser(targetChannel);
+            const messages = await client.getRandomMessagesFromUser(targetChannel)
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             targetChannel.send(randomMessage);
             ConsoleUtils.printSuccessStrong("Message sent!");
         }

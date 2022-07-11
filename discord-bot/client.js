@@ -37,28 +37,29 @@ class Client extends DClient {
         return resChannel;
     }
 
-    async getRandomMessageFromUser(textChannel) {
+    async getRandomMessagesFromUser(textChannel) {
         for (let i = 0; i < REQUEST_LIMIT; i++) {
             const date = TimeDateUtils.getRandomDate(
                 this.msgOpts.random.start,
                 this.msgOpts.random.end,
             );
             const messageSnowflake = SnowflakeUtil.generate(date);
-            const messages = await textChannel.messages.fetch({
+            const allMessages = await textChannel.messages.fetch({
                 limit: 100,
                 around: messageSnowflake,
             });
 
-            // TODO: instead of finding the first message, filter a list and pick a random one
-            const message = messages.find((message) =>
-                message.author.id === this.targets.user
-            ).content;
+            const messages = allMessages 
+              .filter((msg) => msg.author.id === this.targets.user)
+              .map((msg) => msg.content);
 
-            if (!message) continue;
+            if (!messages || messages.length === 0) continue;
 
-            return message;
-        }
-    }
+            return messages;
+      }
+
+      return [];
+  }
 }
 
 module.exports = Client;
